@@ -1,0 +1,33 @@
+---
+import Card from './Card.astro'
+const { title, description } = Astro.props
+---
+
+<div
+    class='relative z-10 p-8 text-white h-screen w-screen overflow-y-hidden overflow-x-hidden min-h-[800px]'
+    id='home'
+>
+    <section class='relative'>
+        <header class='relative'>
+            <h1
+                class='text-white pt-40 text-[55px] font-medium pl-20 z-4 max-[836px]:text-[30px] max-[836px]:pl-1 max-[597px]:text-center max-[597px]:pl-0 max-[597px]:left-[50%] max-[597px]:relative max-[597px]:translate-x-[-50%] max-[394px]:max-w-[300px]'
+            >
+                {title}
+            </h1>
+            <p
+                class='text-white text-[30px] pl-20 w-[800px] mt-9 z-4 max-[836px]:text-[20px] max-[836px]:pl-1 max-[773px]:max-w-[600px] max-[773px]:break-words max-[597px]:max-w-[400px] max-[597px]:text-center max-[597px]:pl-0 max-[597px]:left-[50%] max-[597px]:relative max-[597px]:translate-x-[-50%] max-[394px]:max-w-[290px]'
+            >
+                {description}
+            </p>
+            <button
+                class='border-white border-[3px] border-solid rounded-[4px] ml-[5rem] mt-32 pl-10 pr-10 pt-2 pb-2 hover:bg-white hover:text-black max-[836px]:ml-0 max-[597px]:left-[20%] max-[597px]:relative max-[597px]:translate-x-[-50%] max-[454px]:block max-[454px]:left-[50%]'
+                >Contact me</button
+            >
+            <button
+                class='border-white border-[3px] border-solid rounded-[4px] pl-10 pr-10 m-12 pt-2 pb-2 hover:bg-white hover:text-black transition-all duration-300 max-[836px]:ml-6 max-[597px]:left-[25%] max-[597px]:relative max-[597px]:translate-x-[-50%] max-[454px]:block max-[454px]:left-[50%] max-[454px]:ml-0'
+                >Proyects</button
+            >
+            <Card color='#9f2a9f' />
+        </header>
+    </section>
+</div>

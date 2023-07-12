@@ -1,0 +1,172 @@
+---
+import GitLogo from './icons/GitLogo.astro'
+import IGLogo from './icons/IGLogo.astro'
+import Logo from './icons/Logo.astro'
+import Menu from './icons/Menu.astro'
+const { home, projects, about, contact, display } = Astro.props
+---
+
+<div id='container' data-display={Astro.props.display}>
+    <header
+        class=`py-3 px-10 flex items-center fixed top-0 w-full justify-between z-40 text-white bg-[#181b20] shadow-xl max-[1093px]:py-[2.6rem] user-select-none`
+        id='header-section'
+    >
+        <div
+            class='flex flex-grow basis-0 max-[1093px]:top-[20px] max-[1093px]:absolute'
+        >
+            <Logo />
+        </div>
+        <nav>
+            <ul
+                class='flex text-sm [&>li>a]:text-white [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:transition-colors [&>li>a]:duration-500 max-[977px]:hidden max-[1093px]:absolute max-[1093px]:left-[50%] max-[1093px]:translate-x-[-50%] max-[1093px]:top-[50%] max-[1093px]:translate-y-[-50%]'
+            >
+                <li><a href=`${home}`>Home</a></li>
+                <li><a href=`${projects}`>Proyectos</a></li>
+                <li><a href=`${about}`>Sobre mi</a></li>
+                <li><a href=`${contact}`>Contacto</a></li>
+            </ul>
+        </nav>
+        <nav class='flex flex-grow basis-0 justify-end max-[1093px]:hidden'>
+            <ul
+                class='flex text-sm [&>li>a]:text-white [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:transition-colors [&>li>a]:duration-500'
+            >
+                <li>
+                    <a href='https://github.com/der56' target='_blank'
+                        ><GitLogo /></a
+                    >
+                    <li>
+                        <a
+                            href='https://www.instagram.com/der_56._/'
+                            target='_blank'><IGLogo /></a
+                        >
+                    </li>
+                    <a href='/profile' class='user-select-none' id='link'>
+                        <li
+                            id='account'
+                            class='relative left-2 top-1 user-select-none'
+                        >
+                        </li></a
+                    >
+                </li>
+            </ul>
+        </nav>
+        <nav class='flex flex-grow basis-0 justify-end min-[1093px]:hidden'>
+            <ul
+                class='flex text-sm [&>li>a]:text-white [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:transition-colors [&>li>a]:duration-500 max-[1093px]:absolute max-[1093px]:top-[13px]'
+            >
+                <li>
+                    <a><Menu /></a>
+                </li>
+            </ul>
+        </nav>
+        <!-- creditos del menubackdrop a https://github.com/midudev/landing-tesla/blob/main/src/components/LandingHeader.astro -->
+        <div
+            id='menu-backdrop'
+            class={`
+      absolute border-b-white border-b-4 backdrop-blur-lg rounded
+      translate-x-[var(--left)] translate-y-[var(--top)]
+      left-0 top-0
+      w-[var(--width)] h-[var(--height)]
+      transition-all duration-300
+      ease-in-out opacity-0 -z-10
+      `}
+        >
+        </div>
+    </header>
+</div>
+
+<script>
+    const $account = document.querySelector('#account')
+    const $link = document.querySelector('#link') as HTMLAnchorElement
+    function existeCookie(nombre: string) {
+        var cookies = document.cookie.split(';')
+
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim()
+            if (cookie.indexOf(nombre + '=') === 0) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    if ($account !== null) {
+        if (existeCookie('token')) {
+            function getCookieValue(cookieName: string) {
+                const cookies = document.cookie.split(';')
+
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim()
+
+                    if (cookie.indexOf(cookieName + '=') === 0) {
+                        return cookie.substring(cookieName.length + 1)
+                    }
+                }
+            }
+            const token = getCookieValue('token')
+            fetch('https://d4erapi56.onrender.com/api/profile', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                credentials: 'include',
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    let image = data.profile_picture
+                    if (image === null || image === undefined || image === '') {
+                        $account.innerHTML = `<img src="profileWhitepng.png" alt="Profile Photo" class="w-9 h-9 rounded-[50%] user-select-none" />`
+                    } else {
+                        $account.innerHTML = `<img src="${image}" alt="Profile Photo" class="w-9 h-9 rounded-[50%] user-select-none" />`
+                    }
+                })
+        } else {
+            $account.innerHTML =
+                '<span class="left-0 pb-6 top-[0.35rem] block relative text-white"><a href="/login" >iniciar sesión</a></span>'
+            $link.href = '/login'
+        }
+    }
+</script>
+
+<script>
+    const listItem = document.querySelectorAll('#header-section li')
+    const menuBackDrop = document.querySelector('#menu-backdrop') as HTMLElement
+    listItem.forEach((item) => {
+        item.addEventListener('mouseenter', () => {
+            const { left, top, width, height } = item.getBoundingClientRect()
+            menuBackDrop.style.setProperty('--left', `${left}px`)
+            menuBackDrop.style.setProperty('--top', `${top}px`)
+            menuBackDrop.style.setProperty('--width', `${width}px`)
+            menuBackDrop.style.setProperty('--height', `${height}px`)
+            menuBackDrop.style.opacity = '1'
+            menuBackDrop.style.visibility = 'visible'
+        })
+        item.addEventListener('mouseleave', () => {
+            menuBackDrop.style.opacity = '0'
+            menuBackDrop.style.visibility = 'hidden'
+        })
+    })
+</script>
+
+<script>
+    window.addEventListener('resize', function () {
+        // dar el display none en login para hacer que la carta ocupe toda la pagina en responsive
+        const windowWidth =
+            window.innerWidth || document.documentElement.clientWidth
+
+        const container = document.querySelector('#container')
+
+        if (container !== null) {
+            const display = container.getAttribute('data-display')
+            if (windowWidth <= 500) {
+                container.classList.add(String(display))
+            } else {
+                container.classList.remove(String(display))
+            }
+        }
+    })
+
+    window.dispatchEvent(new Event('resize'))
+</script>

@@ -1,0 +1,313 @@
+---
+import Layout from '../../layouts/Layout.astro'
+---
+
+<Layout title='profile | d4er portfolio'>
+    <style>
+        .responsiveHeight {
+            width: 400px;
+            border: 3px solid #fff;
+            border-radius: 0.5rem;
+            height: 70vh;
+            box-shadow: 0 0 10px #fff;
+        }
+        @media screen and (max-height: 636px) {
+            .responsiveHeight {
+                width: 100%;
+                height: 100vh;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
+    <div
+        class='h-screen bg-gradient-to-br from-[#181b20] to-[#312e33] relative overflow-y-auto overflow-x-hidden'
+    >
+        <section class='card'>
+            <div
+                class='relative left-[50%] translate-x-[-50%] top-[50vh] translate-y-[-50%] max-[400px]:w-full max-[400px]:border-none max-[400px]:shadow-none max-[400px]:h-100% responsiveHeight'
+            >
+                <div
+                    class='opacity-100 hover:cursor-pointer w-[100px] h-[100px] rounded-[50%] relative left-[50%] translate-x-[-50%] top-[10vh] translate-y-[-50%] hover:bg-[#222022] hover:opacity-80'
+                >
+                    <img
+                        id='image'
+                        alt='Profile Image'
+                        class='w-[100%] h-[100%] rounded-[50%]'
+                    />
+                    <svg
+                        class='absolute top-0 right-0 w-6 h-6 m-2 fill-current text-white transition-opacity duration-300 z-10'
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 24 24'
+                    >
+                        <path d='M0 0h24v24H0z' fill='none'></path>
+                        <path
+                            d='M14.5 3.04l6.92 6.92-11.5 11.5H3v-3.54L14.5 3.04zm1.96-1.96L20 4.04 19.96 4l-1.83-1.83a1.5 1.5 0 0 0-2.12 0L14.5 2.62 17.38 5.5zm-9.88 9.88L7.12 13.5l2.75-2.75 1.41 1.41L8.53 14.91zM4 20h16v2H4v-2z'
+                        ></path>
+                    </svg>
+                </div>
+
+                <h1
+                    class='text-white left-12 font-bold relative top-[10vh] translate-y-[-50%]'
+                    id='editButtonUsername'
+                >
+                    Editar perfil
+                </h1>
+                <div
+                    class='relative top-[13vh] translate-y-[-50%] left-12'
+                    id='ctn-user'
+                >
+                    <h1 class='font-semibold mt-2 text-white'>
+                        Nombre de usuario
+                    </h1>
+                    <span id='username' class='text-white'></span>&nbsp;
+                    <span id='succesfullyUser'></span>
+                    <button
+                        class='text-white border-[2px] border-slate-50 border-solid pl-2 pr-2 rounded-lg mt-4 hover:bg-white hover:text-black transition-all duration-200'
+                        id='edit-user'>Editar</button
+                    >
+                </div>
+                <div
+                    class='relative top-[13vh] translate-y-[-50%] left-12 text-white'
+                >
+                    <h1 class='font-semibold mt-8'>
+                        Contraseña y autenticación
+                    </h1>
+                    <button
+                        class='mt-4 border-solid border-slate-50 border-[3px] rounded-lg pl-2 pr-2 hover:bg-white hover:text-black transition-all duration-200'
+                        id='changePasswordButton'>Cambiar contraseña</button
+                    >
+                </div>
+                <a href='/profile'>
+                    <button
+                        class='text-white top-[20%] left-12 relative border-solid border-slate-50 border-[3px] rounded-lg pl-2 pr-2 hover:bg-white hover:text-black transition-all duration-200'
+                        >volver</button
+                    ></a
+                >
+            </div>
+        </section>
+        <div
+            class='w-[600px] h-[300px] hidden bg-[#2d2c2c] absolute z-80 top-[50vh] left-[50%] translate-x-[-50%] translate-y-[-50%] transition-all duration-300 max-[600px]:w-[100%] max-[600px]:rounded-none max-[600px]:h-full'
+            id='changePasswordCtn'
+        >
+            <h1 class='text-white font-bold font-sans text-center mt-4'>
+                Actualiza tu contraseña
+            </h1>
+            <p class='text-white font-extralight text-center mb-4'>
+                Introduce tu contraseña actual y una nueva contraseña.
+            </p>
+            <input
+                type='password'
+                placeholder='Contraseña actual'
+                class='block outline-none pl-2 rounded-lg mb-4 w-[90%] top-[5%] translate-y-[-50%] relative left-[50%] translate-x-[-50%] bg-[#262525] caret-slate-50'
+            />
+            <input
+                type='password'
+                placeholder='Nueva contraseña'
+                class='block outline-none pl-2 rounded-lg w-[90%] relative left-[50%] top-[8%] translate-y-[-50%] translate-x-[-50%] bg-[#262525] caret-slate-50'
+            />
+            <input
+                type='password'
+                placeholder='Confirmar nueva contraseña'
+                class='block outline-none pl-2 rounded-lg mt-4 w-[90%] relative left-[50%] top-[10%] translate-y-[-50%] translate-x-[-50%] bg-[#262525] caret-slate-50'
+            />
+            <button
+                class='text-gray-200 left-[20%] translate-x-[-50%] translate-y-[-50%] relative top-[20%]'
+                id='crossCloser'>Cancelar</button
+            >
+            <button
+                type='submit'
+                class='bg-[#434049] text-white rounded-lg pl-4 pr-4 left-[70%] translate-x-[-50%] translate-y-[-50%] relative top-[20%] max-[341px]:left-[60%]'
+                >Listo</button
+            >
+        </div>
+    </div>
+
+    <script>
+        const $crossCloser = document.querySelector(
+            '#crossCloser'
+        ) as HTMLElement
+        const $welcome = document.querySelector('#welcome') as HTMLElement
+        const $member = document.querySelector('#member') as HTMLElement
+        const $username = document.querySelector('#username') as HTMLElement
+        const $image = document.querySelector('#image') as HTMLImageElement
+        const $ctnUser = document.querySelector('#ctn-user') as HTMLElement
+        const $editUser = document.querySelector(
+            '#edit-user'
+        ) as HTMLButtonElement
+        const $succesfullyUser = document.querySelector(
+            '#succesfullyUser'
+        ) as HTMLElement
+        const $changePasswordButton = document.querySelector(
+            '#changePasswordButton'
+        )
+        const $changePasswordCtn = document.querySelector('#changePasswordCtn')
+
+        $crossCloser.addEventListener('click', () => {
+            $changePasswordCtn.style.display = 'none'
+        })
+
+        function getCookieValue(cookieName: string) {
+            const cookies = document.cookie.split(';')
+
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim()
+
+                if (cookie.indexOf(cookieName + '=') === 0) {
+                    return cookie.substring(cookieName.length + 1)
+                }
+            }
+        }
+        const token = getCookieValue('token')
+
+        $changePasswordButton.addEventListener('click', () => {
+            const bgdoc = document.querySelector('#bg-doc')
+            $changePasswordCtn.style.display = 'block'
+            $changePasswordCtn.style.opacity = '0'
+            setTimeout(() => {
+                $changePasswordCtn.style.opacity = '100'
+            }, 10)
+            $changePasswordCtn.classList.add('rounded-lg')
+            document.addEventListener('keyup', (e: Event) => {
+                if (e.code === 'Escape') {
+                    $changePasswordCtn.style.display = 'none'
+                }
+            })
+        })
+
+        $editUser.addEventListener('click', () => {
+            const input = document.createElement('input')
+            input.type = 'text'
+            input.value = $username.textContent
+            input.classList.add('outline-none')
+            input.classList.add('rounded-lg')
+            input.classList.add('pl-[10px]')
+            input.placeholder = 'Nombre de usuario'
+            $ctnUser.replaceChild(input, $username)
+            $editUser.textContent = 'continuar'
+            $editUser.addEventListener('click', () => {
+                const accept = window.confirm(
+                    '¿Estas seguro de cambiar tu nombre?'
+                )
+                if (accept) {
+                    fetch(
+                        'https://d4erapi-portfolio.onrender.com/api/uploadUsername',
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({
+                                username: input.value,
+                            }),
+                            credentials: 'include',
+                        }
+                    )
+                        .then((response) => {
+                            if (response.status === 400) {
+                                $succesfullyUser.classList.add('text-[#ff2b00]')
+                                $succesfullyUser.textContent =
+                                    'user cant have 20 characters or more'
+
+                                $editUser.style.display = 'none'
+                            } else {
+                                response.json().then((data) => {
+                                    const span = document.createElement('span')
+                                    span.textContent = data.username
+                                    span.classList.add('text-white')
+                                    $editUser.style.display = 'none'
+                                    $ctnUser.replaceChild(span, input)
+                                    $succesfullyUser.classList.add(
+                                        'text-[#49be25]'
+                                    )
+                                    $succesfullyUser.textContent =
+                                        'user changed successfully!'
+                                })
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error)
+                        })
+                } else {
+                    window.location.href = '/profile'
+                }
+            })
+        })
+        $image.addEventListener('click', () => {
+            const input = document.createElement('input')
+            input.type = 'file'
+            input.accept = 'image/*'
+
+            input.addEventListener('change', () => {
+                const file = input.files[0]
+
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader()
+
+                    reader.onload = (e) => {
+                        const base64Image = e.target.result
+                        fetch(
+                            'https://d4erapi-portfolio.onrender.com/api/upload',
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    Authorization: `Bearer ${token}`,
+                                },
+                                body: JSON.stringify({
+                                    profile_picture: base64Image,
+                                }),
+                                credentials: 'include',
+                            }
+                        )
+                            .then((response) => response.json())
+                            .then((data) => {
+                                $image.src = base64Image
+                                $image.style.border = 'none'
+                            })
+                            .catch((error) => {
+                                console.error(error)
+                            })
+                    }
+
+                    reader.readAsDataURL(file)
+                } else {
+                    console.error('No se seleccionó un archivo de imagen.')
+                }
+            })
+
+            input.click()
+        })
+
+        fetch(`https://d4erapi-portfolio.onrender.com/api/profile`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            credentials: 'include',
+        })
+            .then((response) => {
+                if (response.status == 401) {
+                    window.location.href = '/'
+                }
+                response.json().then((data) => {
+                    console.log(data)
+                    const createdAt = new Date(
+                        data.createdAt
+                    ).toLocaleDateString()
+                    $username.innerHTML = data.username
+                    if (data.profile_picture) {
+                        $image.src = data.profile_picture
+                    } else {
+                        $image.src = '/defaultProfile.png'
+                        $image.style.border = '5px solid #000'
+                    }
+                })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    </script>
+</Layout>

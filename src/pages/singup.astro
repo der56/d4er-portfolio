@@ -1,0 +1,226 @@
+---
+import Navbar from '../components/Navbar.astro'
+import Layout from '../layouts/Layout.astro'
+---
+
+<Layout title='sing up | d4er portfolio'>
+    <Navbar
+        home='/'
+        projects='/#projects'
+        about='/#about'
+        contact='/#'
+        display='hidden'
+    />
+    <div
+        class='h-full bg-gradient-to-br from-[#181b20] to-[#312e33] relative overflow-y-hidden'
+    >
+        <form
+            action='submit'
+            id='form-login'
+            class='text-white relative left-[50%] border-[4px] translate-x-[-50%] border-white rounded-lg top-[53%] translate-y-[-50%] bg-[#201f1f] shadow-custom max-[500px]:w-full max-[500px]:border-none max-[500px]:shadow-none max-[500px]:rounded-none max-[500px]:h-[100vh] max-[500px]:top-[50vh]'
+        >
+            <div class='flex justify-center'>
+                <span class='text-center relative top-20 bold-txt'
+                    >registrarse</span
+                >
+            </div>
+            <div class='h-full w-full relative top-[-30px]'>
+                <input
+                    type='text'
+                    class='left-[50%] translate-x-[-50%] relative top-[30%] w-[70%] text-black bg-slate-50 outline-none rounded-lg'
+                    placeholder='usuario'
+                    id='user'
+                    style='padding-left: 10px;'
+                    autocomplete='off'
+                />
+                <div
+                    id='user-error'
+                    class='text-red-500 left-[50%] translate-x-[-50%] relative top-[31%] w-[70%]'
+                >
+                </div>
+                <input
+                    type='email'
+                    class='left-[50%] translate-x-[-50%] relative top-[32.5%] w-[70%] text-black bg-slate-50 outline-none rounded-lg'
+                    placeholder='email'
+                    id='email'
+                    style='padding-left: 10px;'
+                    autocomplete='off'
+                />
+                <div
+                    id='email-error'
+                    class='text-red-500 left-[50%] translate-x-[-50%] relative top-[33.5%] w-[70%]'
+                >
+                </div>
+                <input
+                    type='password'
+                    class='left-[50%] translate-x-[-50%] relative top-[35%] w-[70%] text-black bg-slate-50 outline-none rounded-lg'
+                    placeholder='contraseña'
+                    id='password'
+                    style='padding-left: 10px;'
+                    autocomplete='off'
+                />
+                <div
+                    id='password-error'
+                    class='text-red-500 left-[50%] translate-x-[-50%] relative top-[36%] w-[70%]'
+                >
+                </div>
+                <a
+                    href='/login'
+                    class='relative translate-y-[-50%] inline-block hover:underline login max-[721px]:ml-[7rem] max-[475px]:ml-[5rem] max-[352px]:ml-[3rem]'
+                >
+                    o iniciar sesión
+                </a>
+                <button
+                    type='submit'
+                    class='float-right relative translate-y-[-50%] hover:underline next max-[721px]:mr-[7rem] max-[475px]:mr-[5rem] max-[352px]:mr-[3rem]'
+                    >siguiente</button
+                >
+            </div>
+        </form>
+        <style>
+            .shadow-custom {
+                box-shadow: 0 0 20px;
+                width: 500px;
+                height: 80vh;
+            }
+            .login {
+                margin-left: 5rem;
+                top: 40.2%;
+            }
+            .next {
+                margin-right: 5rem;
+                top: 40%;
+            }
+            @media screen and (max-height: 712px) {
+                .shadow-custom {
+                    box-shadow: none;
+                    border: none;
+                    width: 100%;
+                    height: 100vh;
+                }
+                .login {
+                    margin-left: 12rem;
+                    top: 44.2%;
+                }
+                .next {
+                    margin-right: 12rem;
+                    top: 44%;
+                }
+            }
+            .bold-txt {
+                font-weight: bold;
+                font-size: 30px;
+            }
+        </style>
+    </div>
+</Layout>
+
+<script>
+    const $form = document.querySelector('#form-login')
+    $form?.addEventListener('submit', async (event) => {
+        event.preventDefault()
+
+        const user = document.querySelector('#user') as HTMLInputElement
+        const em = document.querySelector('#email') as HTMLInputElement
+        const password = document.querySelector('#password') as HTMLInputElement
+        //const profilePicture = document.querySelector(
+        //    '#profile-picture'
+        //) as HTMLInputElement
+
+        const email = em.value
+        const pass = password.value
+        const username = user.value
+        await fetch('https://d4erapi-portfolio.onrender.com/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: pass,
+                profile_picture: '',
+            }),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    response.json().then((data) => {
+                        console.log(data)
+                        document.cookie = 'token=' + data.token
+                        window.location.href = '/'
+                    })
+                } else if (response.status === 400) {
+                    response.text().then((data) => {
+                        if (!pass) {
+                            const errorDiv = document.querySelector(
+                                '#password-error'
+                            ) as HTMLDivElement
+                            errorDiv.textContent = 'la contraseña es requerida'
+                            errorDiv.style.display = 'block'
+                        } else if (data.includes('User is required')) {
+                            const errorDiv = document.querySelector(
+                                '#user-error'
+                            ) as HTMLDivElement
+                            errorDiv.textContent = 'El usuario es requerido'
+                            errorDiv.style.display = 'block'
+                            const user = document.querySelector(
+                                '#user'
+                            ) as HTMLInputElement
+                            user.addEventListener('input', () => {
+                                errorDiv.style.display = 'none'
+                            })
+                        } else if (data.includes('Invalid email')) {
+                            const errorDiv = document.querySelector(
+                                '#email-error'
+                            ) as HTMLDivElement
+                            errorDiv.textContent = 'El email es requerido'
+                            errorDiv.style.display = 'block'
+                            const email = document.querySelector(
+                                '#email'
+                            ) as HTMLInputElement
+                            email.addEventListener('input', () => {
+                                errorDiv.style.display = 'none'
+                            })
+                        } else if (
+                            data.includes('User with this email already exists')
+                        ) {
+                            const errorDiv = document.querySelector(
+                                '#email-error'
+                            ) as HTMLDivElement
+                            errorDiv.textContent = 'Este email ya esta en uso'
+                            errorDiv.style.display = 'block'
+                            const email = document.querySelector(
+                                '#email'
+                            ) as HTMLInputElement
+                            email.addEventListener('input', () => {
+                                errorDiv.style.display = 'none'
+                            })
+                        }
+                    })
+                }
+            })
+            .catch((error) => {
+                console.error(error)
+            })
+    })
+</script>
+<script>
+    const password = document.querySelector('#password') as HTMLInputElement
+    const errorDiv = document.querySelector('#password-error') as HTMLDivElement
+
+    password.addEventListener('input', (e) => {
+        if (password.value.length < 6) {
+            errorDiv.textContent =
+                'La contraseña debe tener al menos 6 caracteres'
+            errorDiv.style.display = 'block'
+        } else {
+            errorDiv.textContent = ''
+            errorDiv.style.display = 'none'
+        }
+    })
+    password.addEventListener('blur', (e) => {
+        if (password.value === '') {
+            errorDiv.style.display = 'none'
+        }
+    })
+</script>

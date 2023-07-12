@@ -1,0 +1,206 @@
+<div>
+  <div id='photo' class='photo w-[300px]'></div>
+</div>
+
+<style>
+  .like-btn {
+    transition: color 0.3s ease;
+  }
+</style>
+
+<script>
+  const $photo = document.querySelector('#photo')
+
+  fetch('https://d4erapi56.onrender.com/api/comments/', {
+    method: 'GET',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      let allElements = ''
+
+      for (let i = 0; i < data.length; i++) {
+        const element = data[i]
+        const userId = element.user._id
+        const user = element.user.username
+        const profile = element.user.profile_picture
+        const content = element.content
+        const likes = element.likes
+        const _id = element._id
+
+        function getCookieValue(cookieName: string) {
+          const cookies = document.cookie.split(';')
+
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim()
+
+            if (cookie.indexOf(cookieName + '=') === 0) {
+              return cookie.substring(cookieName.length + 1)
+            }
+          }
+        }
+        const token = getCookieValue('token')
+        if (token) {
+          console.log(token)
+          fetch('https://d4erapi56.onrender.com/api/profile', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            credentials: 'include',
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data)
+
+              const liked = data.liked_comments
+              const isLiked = liked.includes(_id)
+              const likeButtonContent = isLiked ? '❤️' : '♡'
+
+              if (profile === undefined || profile === '' || profile === null) {
+                // si no existe foto de perfil renderiza la foto por defecto
+                allElements += `
+                <div class="comment w-[70%] max-[623px]:w-[70%] pb-4 pt-4">
+                  <div class="photo inline-block">
+                    <img src="defaultProfile.png" alt="Profile Photo" class="w-10 h-10 rounded-[50%] border-[#010101] border-[2px]" />
+                  </div>
+                  <div class="user inline-block bottom-4 left-2 relative text-white">${user}</div>
+                  <div class="content text-white left-6 relative bottom-2 break-words w-[240px] max-[391px]:w-[150px]">${content}</div>
+                </div>
+                <span id="likes-${_id}" class="like-container inline-block text-white relative left-[50%] bottom-[50px] float-right max-[391px]:left-[19px]">
+                  <button id="comment-${_id}" class="like-btn" data-comment-id="${_id}">${likeButtonContent}</button> &nbsp; <span class="like-count">${likes}</span>
+                </span>
+              `
+                // ♥♡
+              } else {
+                allElements += `
+                <div class="comment w-[70%] max-[623px]:w-[70%] pb-4 pt-4">
+                  <div class="photo inline-block">
+                    <img src="${profile}" alt="Profile Photo" class="w-10 h-10 rounded-[50%]" />
+                  </div>
+                  <div class="user inline-block bottom-4 left-2 relative text-white">${user}</div>
+                  <div class="content text-white relative bottom-2 left-6 break-words w-[240px] max-[391px]:w-[150px]">${content}</div>
+                </div>
+                <div id="likes-${_id}" class="like-container inline-block text-white relative left-[100%] bottom-[50px] max-[557px]:left-[70%] max-[339px]:left-[60%]">
+                  <button id="comment-${_id}" class="like-btn" data-comment-id="${_id}">${likeButtonContent}</button> &nbsp; <span class="like-count">${likes}</span>
+                </div>
+              `
+              }
+
+              if ($photo && allElements) {
+                $photo.innerHTML = allElements
+                function likeComment(commentId: string | null) {
+                  const token = getCookieValue('token')
+                  const likeUrl = `https://d4erapi56.onrender.com/api/comments/${commentId}/like`
+                  fetch(likeUrl, {
+                    method: 'POST',
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                    credentials: 'include',
+                  })
+                    .then((response) => response.json())
+                    .then((data) => {
+                      const likesElement = document.querySelector(
+                        `#likes-${commentId} .like-count`
+                      )
+                      if (likesElement) {
+                        likesElement.textContent = data.likes
+                        const likeButton = document.querySelector(
+                          `#comment-${commentId}`
+                        )
+                        if (likeButton) {
+                          likeButton.textContent = '❤️'
+                        }
+                      }
+                    })
+                    .catch((error) => console.error(error))
+                }
+                function unlikeComment(commentId: string | null) {
+                  const token = getCookieValue('token')
+                  const likeUrl = `https://d4erapi56.onrender.com/api/comments/${commentId}/unlike`
+                  fetch(likeUrl, {
+                    method: 'POST',
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                    credentials: 'include',
+                  })
+                    .then((response) => response.json())
+                    .then((data) => {
+                      const likesElement = document.querySelector(
+                        `#likes-${commentId} .like-count`
+                      )
+                      if (likesElement) {
+                        likesElement.textContent = data.likes
+                        const likeButton = document.querySelector(
+                          `#comment-${commentId}`
+                        )
+                        if (likeButton) {
+                          likeButton.textContent = '♡'
+                        }
+                      }
+                    })
+                    .catch((error) => console.error(error))
+                }
+                // Agregar evento de clic a los botones de "like"
+                const token = getCookieValue('token')
+                const likeButtons = document.querySelectorAll('.like-btn')
+
+                if (likeButtons !== null) {
+                  likeButtons.forEach((button) => {
+                    const commentId = button.getAttribute('data-comment-id')
+                    button.addEventListener('click', () => {
+                      const likeButtonContent = button.textContent
+                      if (likeButtonContent === '♡') {
+                        likeComment(commentId)
+                      } else if (likeButtonContent === '❤️') {
+                        unlikeComment(commentId)
+                      }
+                    })
+                  })
+                }
+              }
+            })
+        } else {
+          fetch('https://d4erapi56.onrender.com/api/comments', {
+            method: 'GET',
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              //const profile = data.user.profile_picture
+              //const user = data.user.username
+              //const content = data.content
+
+              if (profile === undefined || profile === '' || profile === null) {
+                // si no existe foto de perfil renderiza la foto por defecto
+                allElements += `
+                <div class="comment w-[70%] max-[623px]:w-[70%] pb-4 pt-4">
+                  <div class="photo inline-block">
+                    <img src="defaultProfile.png" alt="Profile Photo" class="w-10 h-10 rounded-[50%] border-[#010101] border-[2px]" />
+                  </div>
+                  <div class="user inline-block bottom-4 left-2 relative text-white">${user}</div>
+                  <div class="content text-white left-6 relative bottom-2 break-words w-[240px] max-[391px]:w-[150px]">${content}</div>
+                </div>
+              `
+                // ♥♡
+              } else {
+                allElements += `
+                <div class="comment w-[70%] max-[623px]:w-[70%] pb-4 pt-4">
+                  <div class="photo inline-block">
+                    <img src="${profile}" alt="Profile Photo" class="w-10 h-10 rounded-[50%]" />
+                  </div>
+                  <div class="user inline-block bottom-4 left-2 relative text-white ">${user}</div>
+                  <div class="content text-white relative bottom-2 left-6 break-words w-[240px] max-[391px]:w-[150px]">${content}</div>
+                </div>
+              `
+              }
+
+              if ($photo && allElements) {
+                $photo.innerHTML = allElements
+              }
+            })
+        }
+      }
+    })
+</script>

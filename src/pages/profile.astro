@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro'
+---
+
+<Layout title='profile | d4er portfolio'>
+    <div
+        class='h-screen bg-gradient-to-br from-[#181b20] to-[#312e33] relative overflow-y-auto'
+    >
+        <div
+            class='opacity-100 w-[100px] h-[100px] rounded-[50%] relative left-[50%] translate-x-[-50%] top-[10vh] translate-y-[-50%]'
+        >
+            <img
+                id='image'
+                alt='Profile Image'
+                class='w-[100%] h-[100%] rounded-[50%]'
+            />
+        </div>
+
+        <h1
+            id='welcome'
+            class='text-white text-center relative top-[10vh] translate-y-[-50%]'
+        >
+        </h1>
+        <h3
+            id='member'
+            class='text-white text-center relative top-[10vh] translate-y-[-50%]'
+        >
+        </h3>
+        <div
+            class='flex justify-center items-center relative left-[50%] top-[13vh] translate-x-[-50%] translate-y-[-50%] w-[350px]'
+        >
+            <button
+                class='bg-transparent text-white border-2 border-solid border-[#fff] hover:bg-white hover:text-black transition-all duration-300 font-medium p-1 rounded-lg relative mr-2'
+                id='logout'
+            >
+                cerrar sesión</button
+            >
+            <a href='/profile/edit'>
+                <button
+                    class='bg-transparent text-white border-2 border-solid border-[#fff] hover:bg-white hover:text-black transition-all duration-300 font-medium p-1 rounded-lg ml-2'
+                    id='logout'
+                >
+                    editar perfil</button
+                >
+            </a>
+        </div>
+        <div
+            class='relative w-[80%] border-solid border-white border-4 rounded-lg h-[60%] left-[50%] translate-x-[-50%] top-[15vh] text-white'
+            id='comments'
+        >
+        </div>
+    </div>
+
+    <script>
+        const $welcome = document.querySelector('#welcome') as HTMLElement
+        const $member = document.querySelector('#member') as HTMLElement
+        const $comments = document.querySelector('#comments') as HTMLElement
+        const $image = document.querySelector('#image') as HTMLImageElement
+        function getCookieValue(cookieName: string) {
+            const cookies = document.cookie.split(';')
+
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim()
+
+                if (cookie.indexOf(cookieName + '=') === 0) {
+                    return cookie.substring(cookieName.length + 1)
+                }
+            }
+        }
+        const token = getCookieValue('token')
+
+        fetch('https://d4erapi-portfolio.onrender.com/api/profile', {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            credentials: 'include',
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                const createdAt = new Date(data.createdAt).toLocaleDateString()
+                $welcome.innerHTML = `Bienvenido ${data.username} | ${data.email}`
+                $member.innerHTML = `miembro desde ${createdAt}`
+                if (data.profile_picture) {
+                    $image.src = data.profile_picture
+                } else {
+                    $image.src = '/defaultProfile.png'
+                    $image.style.border = '5px solid #000'
+                }
+                if (data.liked_comments.length === 0) {
+                    $comments.innerHTML = `no has dado me gusta a ningún comentario`
+                    console.log('a')
+                } else {
+                    $comments.innerHTML = `${data.liked_comments}`
+                    console.log('b')
+                }
+            })
+            .catch((error) => {
+                window.location.href = '/'
+            })
+    </script>
+    <script>
+        const logoutButton = document.querySelector(
+            '#logout'
+        ) as HTMLButtonElement
+        logoutButton.addEventListener('click', () => {
+            fetch('https://d4erapi-portfolio.onrender.com/api/logout', {
+                method: 'POST',
+                credentials: 'include',
+            }).then((response) => {
+                if (response.ok) {
+                    const expirationDate = new Date(0).toUTCString()
+                    document.cookie = `token=; expires=${expirationDate}; path=/;`
+                    location.href = '/'
+                } else if (response.status == 400) {
+                    alert('Logout failed')
+                }
+            })
+        })
+    </script>
+</Layout>
