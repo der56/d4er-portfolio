@@ -17,7 +17,7 @@ import Layout from '../layouts/Layout.astro'
         <form
             action='submit'
             id='form-login'
-            class='text-white relative left-[50%] border-[4px] translate-x-[-50%] border-white rounded-lg top-[53%] translate-y-[-50%] bg-[#201f1f] shadow-custom max-[500px]:w-full max-[500px]:border-none max-[500px]:shadow-none max-[500px]:rounded-none max-[500px]:h-[100vh] max-[500px]:top-[50vh]'
+            class='text-white relative left-[50%] border-[4px] translate-x-[-50%] border-white rounded-lg top-[53%] translate-y-[-50%] bg-[#201f1f] shadow-custom max-[500px]:border-none max-[500px]:shadow-none max-[500px]:rounded-none max-[500px]:top-[50vh]'
         >
             <div class='flex justify-center'>
                 <span class='text-center relative top-20 bold-txt'
@@ -91,12 +91,18 @@ import Layout from '../layouts/Layout.astro'
                 margin-right: 5rem;
                 top: 40%;
             }
+            @media screen and (max-width: 500px) {
+                .shadow-custom {
+                    width: 100% !important;
+                    height: 100vh !important;
+                }
+            }
             @media screen and (max-height: 712px) {
                 .shadow-custom {
                     box-shadow: none;
                     border: none;
-                    width: 100% !important;
-                    height: 100vh !important;
+                    width: 100%;
+                    height: 100vh;
                 }
                 .login {
                     margin-left: 12rem;
