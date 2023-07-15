@@ -34,11 +34,12 @@ import Comment from './Comment.astro'
                     }
                 }
             }
-
+            console.log(addComment.value)
             const token = getCookieValue('token')
             await fetch('https://d4erapi56.onrender.com/api/comments', {
                 method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
@@ -48,7 +49,6 @@ import Comment from './Comment.astro'
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data)
                     location.reload()
                 })
                 .catch((error) => {
@@ -122,7 +122,7 @@ import Comment from './Comment.astro'
                 })
         } else {
             $innerIPT.innerHTML =
-                '<span class="left-10 pb-6 top-4 block relative text-white ">¿Quieres comentar? <a href="#" class="underline">inicia sesión</a> <a href="#" class="underline">o crea una cuenta</a></span>'
+                '<span class="left-10 pb-6 top-4 block relative text-white ">¿Quieres comentar? <a href="/login" class="underline">inicia sesión</a> <a href="/singup" class="underline">o crea una cuenta</a></span>'
         }
     }
 </script>

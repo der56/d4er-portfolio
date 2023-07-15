@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro'
 
 <Layout title='profile | d4er portfolio'>
     <div
-        class='h-screen bg-gradient-to-br from-[#181b20] to-[#312e33] relative overflow-y-auto'
+        class='h-screen bg-gradient-to-br from-[#181b20] to-[#312e33] relative overflow-y-auto overflow-x-hidden'
     >
         <div
             class='opacity-100 w-[100px] h-[100px] rounded-[50%] relative left-[50%] translate-x-[-50%] top-[10vh] translate-y-[-50%]'
@@ -27,7 +27,7 @@ import Layout from '../layouts/Layout.astro'
         >
         </h3>
         <div
-            class='flex justify-center items-center relative left-[50%] top-[13vh] translate-x-[-50%] translate-y-[-50%] w-[350px]'
+            class='flex justify-center items-center relative left-[50%] top-[13vh] translate-x-[-50%] translate-y-[-50%] w-[390px]'
         >
             <button
                 class='bg-transparent text-white border-2 border-solid border-[#fff] hover:bg-white hover:text-black transition-all duration-300 font-medium p-1 rounded-lg relative mr-2'
@@ -43,11 +43,22 @@ import Layout from '../layouts/Layout.astro'
                     editar perfil</button
                 >
             </a>
+            <a href='/'>
+                <button
+                    class='bg-transparent text-white border-2 border-solid border-[#fff] hover:bg-white hover:text-black transition-all duration-300 font-medium p-1 rounded-lg ml-2'
+                >
+                    volver</button
+                >
+            </a>
         </div>
         <div
-            class='relative w-[80%] border-solid border-white border-4 rounded-lg h-[60%] left-[50%] translate-x-[-50%] top-[15vh] text-white'
+            class='relative w-[80%] border-solid border-white border-4 rounded-lg h-[60%] left-[50%] translate-x-[-50%] top-[15vh] text-white overflow-x-auto'
             id='comments'
         >
+            <h1 class='text-[20px] font-light p-2'>
+                Comentarios a los que le has dado me gustas
+            </h1>
+            <br />
         </div>
     </div>
 
@@ -69,9 +80,10 @@ import Layout from '../layouts/Layout.astro'
         }
         const token = getCookieValue('token')
 
-        fetch('https://d4erapi-portfolio.onrender.com/api/profile', {
+        fetch('https://d4erapi56.onrender.com/api/profile', {
             method: 'GET',
             headers: {
+                'Content-Type': 'application/json; charset=utf-8',
                 Authorization: `Bearer ${token}`,
             },
             credentials: 'include',
@@ -90,10 +102,17 @@ import Layout from '../layouts/Layout.astro'
                 }
                 if (data.liked_comments.length === 0) {
                     $comments.innerHTML = `no has dado me gusta a ningún comentario`
-                    console.log('a')
                 } else {
-                    $comments.innerHTML = `${data.liked_comments}`
-                    console.log('b')
+                    for (let i = 0; i < data.liked_comments.length; i++) {
+                        fetch(
+                            `https://d4erapi56.onrender.com/api/getComment/${data.liked_comments[i]}`
+                        )
+                            .then((response) => response.json())
+                            .then((data) => {
+                                $comments.innerHTML += `<h1 class="text-[18px] font-medium pl-2">${data.username}</h1><p class="break-words w-[90%] pl-4 inline">${data.comment.content}</p><p class="inline pl-[8rem]">❤️${data.comment.likes}</p>`
+                                console.log(data)
+                            })
+                    }
                 }
             })
             .catch((error) => {
@@ -105,7 +124,7 @@ import Layout from '../layouts/Layout.astro'
             '#logout'
         ) as HTMLButtonElement
         logoutButton.addEventListener('click', () => {
-            fetch('https://d4erapi-portfolio.onrender.com/api/logout', {
+            fetch('https://d4erapi56.onrender.com/api/logout', {
                 method: 'POST',
                 credentials: 'include',
             }).then((response) => {

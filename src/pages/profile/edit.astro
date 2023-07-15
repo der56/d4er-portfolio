@@ -100,15 +100,23 @@ import Layout from '../../layouts/Layout.astro'
             <input
                 type='password'
                 placeholder='Contraseña actual'
+                id='nowPassword'
                 class='block outline-none pl-2 rounded-lg mb-4 w-[90%] top-[5%] translate-y-[-50%] relative left-[50%] translate-x-[-50%] bg-[#262525] caret-slate-50'
             />
+            <div
+                id='password-now-error'
+                class='text-red-500 left-[50%] translate-x-[-50%] relative top-[-2%] w-[90%]'
+            >
+            </div>
             <input
                 type='password'
+                id='newPassword'
                 placeholder='Nueva contraseña'
                 class='block outline-none pl-2 rounded-lg w-[90%] relative left-[50%] top-[8%] translate-y-[-50%] translate-x-[-50%] bg-[#262525] caret-slate-50'
             />
             <input
                 type='password'
+                id='confirmNewPassword'
                 placeholder='Confirmar nueva contraseña'
                 class='block outline-none pl-2 rounded-lg mt-4 w-[90%] relative left-[50%] top-[10%] translate-y-[-50%] translate-x-[-50%] bg-[#262525] caret-slate-50'
             />
@@ -118,6 +126,7 @@ import Layout from '../../layouts/Layout.astro'
             >
             <button
                 type='submit'
+                id='ready'
                 class='bg-[#434049] text-white rounded-lg pl-4 pr-4 left-[70%] translate-x-[-50%] translate-y-[-50%] relative top-[20%] max-[341px]:left-[60%]'
                 >Listo</button
             >
@@ -169,6 +178,49 @@ import Layout from '../../layouts/Layout.astro'
                 $changePasswordCtn.style.opacity = '100'
             }, 10)
             $changePasswordCtn.classList.add('rounded-lg')
+            const $ready = document.querySelector('#ready')
+            $ready.addEventListener('click', () => {
+                const nowPassword = document.querySelector(
+                    '#nowPassword'
+                ) as HTMLInputElement
+                const newPassword = document.querySelector(
+                    '#newPassword'
+                ) as HTMLInputElement
+                const confirmNewPassword = document.querySelector(
+                    '#confirmNewPassword'
+                ) as HTMLInputElement
+                fetch('https://d4erapi56.onrender.com/api/uploadPassword', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        passwordNOW: nowPassword.value,
+                        newPassword: newPassword.value,
+                        validateNewPassword: confirmNewPassword.value,
+                    }),
+                    credentials: 'include',
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data)
+                        if (data.message === 'Invalid password') {
+                            const errorDiv = document.querySelector(
+                                '#password-now-error'
+                            ) as HTMLDivElement
+                            errorDiv.textContent =
+                                'La contraseña es incorrecta asegurate de escribirla bien'
+                            errorDiv.style.display = 'block'
+                            const nowPassword = document.querySelector(
+                                '#nowPassword'
+                            ) as HTMLInputElement
+                            nowPassword.addEventListener('input', () => {
+                                errorDiv.style.display = 'none'
+                            })
+                        }
+                    })
+            })
             document.addEventListener('keyup', (e: Event) => {
                 if (e.code === 'Escape') {
                     $changePasswordCtn.style.display = 'none'
@@ -191,20 +243,17 @@ import Layout from '../../layouts/Layout.astro'
                     '¿Estas seguro de cambiar tu nombre?'
                 )
                 if (accept) {
-                    fetch(
-                        'https://d4erapi-portfolio.onrender.com/api/uploadUsername',
-                        {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                Authorization: `Bearer ${token}`,
-                            },
-                            body: JSON.stringify({
-                                username: input.value,
-                            }),
-                            credentials: 'include',
-                        }
-                    )
+                    fetch('https://d4erapi56.onrender.com/api/uploadUsername', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify({
+                            username: input.value,
+                        }),
+                        credentials: 'include',
+                    })
                         .then((response) => {
                             if (response.status === 400) {
                                 $succesfullyUser.classList.add('text-[#ff2b00]')
@@ -248,20 +297,17 @@ import Layout from '../../layouts/Layout.astro'
 
                     reader.onload = (e) => {
                         const base64Image = e.target.result
-                        fetch(
-                            'https://d4erapi-portfolio.onrender.com/api/upload',
-                            {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    Authorization: `Bearer ${token}`,
-                                },
-                                body: JSON.stringify({
-                                    profile_picture: base64Image,
-                                }),
-                                credentials: 'include',
-                            }
-                        )
+                        fetch('https://d4erapi56.onrender.com/api/upload', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({
+                                profile_picture: base64Image,
+                            }),
+                            credentials: 'include',
+                        })
                             .then((response) => response.json())
                             .then((data) => {
                                 $image.src = base64Image
@@ -281,7 +327,7 @@ import Layout from '../../layouts/Layout.astro'
             input.click()
         })
 
-        fetch(`https://d4erapi-portfolio.onrender.com/api/profile`, {
+        fetch(`https://d4erapi56.onrender.com/api/profile`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

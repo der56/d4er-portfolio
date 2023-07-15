@@ -40,19 +40,16 @@
         }
         const token = getCookieValue('token')
         if (token) {
-          console.log(token)
           fetch('https://d4erapi56.onrender.com/api/profile', {
             method: 'GET',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json; charset=utf-8',
               Authorization: `Bearer ${token}`,
             },
             credentials: 'include',
           })
             .then((response) => response.json())
             .then((data) => {
-              console.log(data)
-
               const liked = data.liked_comments
               const isLiked = liked.includes(_id)
               const likeButtonContent = isLiked ? '❤️' : '♡'

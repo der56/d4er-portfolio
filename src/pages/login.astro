@@ -8,7 +8,7 @@ import Layout from '../layouts/Layout.astro'
         home='/'
         projects='/#projects'
         about='/#about'
-        contact='/#'
+        contact='/#contact'
         display='hidden'
     />
     <div
@@ -121,6 +121,7 @@ import Layout from '../layouts/Layout.astro'
                 email: email,
                 password: pass,
             }),
+            credentials: 'include',
         })
             .then((response) => {
                 if (response.ok) {

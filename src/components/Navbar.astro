@@ -8,7 +8,7 @@ const { home, projects, about, contact, display } = Astro.props
 
 <div id='container' data-display={Astro.props.display}>
     <header
-        class=`py-3 px-10 flex items-center fixed top-0 w-full justify-between z-40 text-white bg-[#181b20] shadow-xl max-[1093px]:py-[2.6rem] user-select-none`
+        class=`py-3 px-10 flex items-center fixed top-0 w-full justify-between z-40 text-white bg-[#26262666] shadow-xl max-[1093px]:py-[2.6rem] user-select-none backdrop-blur-2`
         id='header-section'
     >
         <div
@@ -55,7 +55,7 @@ const { home, projects, about, contact, display } = Astro.props
                 class='flex text-sm [&>li>a]:text-white [&>li>a]:font-medium [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:transition-colors [&>li>a]:duration-500 max-[1093px]:absolute max-[1093px]:top-[13px]'
             >
                 <li>
-                    <a><Menu /></a>
+                    <a id='menuMovile'><Menu /></a>
                 </li>
             </ul>
         </nav>
@@ -73,7 +73,159 @@ const { home, projects, about, contact, display } = Astro.props
         >
         </div>
     </header>
+    <div id='overlay' style='display: none;' class='overflow-hidden'>
+        <p
+            class='text-white text-[30px] relative left-[93%] top-[2vh] cursor-pointer font-bold max-[536px]:left-[85%]'
+            id='closeMenu'
+        >
+            X
+        </p>
+        <ul
+            class='text-white block relative text-center w-[20%] max-[494px]:w-[35%] left-[50%] translate-x-[-50%] [&>a>li]:mt-8 mb-8 [&>a>li]:text-[20px] [&>a>li]:font-bold'
+        >
+            <a href=`${home}` id='homeButton'>
+                <li class='hover:underline'>Home</li></a
+            >
+            <a href=`${projects}` id='projectsButton'>
+                <li class='hover:underline'>Proyectos</li></a
+            >
+            <a href=`${about}` id='aboutButton'>
+                <li class='hover:underline'>Sobre Mí</li></a
+            >
+            <a href=`${contact}` id='contactButton'>
+                <li class='hover:underline'>Contactos</li></a
+            >
+            <a href='https://github.com/der56' target='_blank'>
+                <li class='hover:underline'>Github</li></a
+            >
+            <a href='https://www.instagram.com/der_56._/' target='_blank'>
+                <li class='hover:underline'>Instagram</li></a
+            >
+            <a href='/profile' id='profileNavbar'>
+                <li class='hover:underline'>Perfil</li></a
+            >
+        </ul>
+        <a href='/login' id='loginNavbar'>
+            <button
+                class='bg-white text-zinc-500 p-2 text-[15px] font-medium rounded-lg btnSesion'
+                >Inciar Sesión</button
+            ></a
+        >
+    </div>
+    <style>
+        #overlay {
+            position: absolute;
+            overflow-y: hidden;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #312e33; /* Color negro con opacidad */
+            z-index: 9999; /* Asegura que esté por encima de otros elementos */
+        }
+        .btnSesion {
+            left: 50%;
+            transform: translateX(-50%);
+            position: relative;
+            top: 20vh;
+        }
+        @media screen and (max-height: 660px) {
+            .btnSesion {
+                top: 10vh;
+            }
+        }
+        @media screen and (max-height: 562px) {
+            .btnSesion {
+                top: 0vh;
+            }
+        }
+    </style>
 </div>
+
+<script>
+    function getCookieValue(cookieName: string) {
+        const cookies = document.cookie.split(';')
+
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim()
+
+            if (cookie.indexOf(cookieName + '=') === 0) {
+                return cookie.substring(cookieName.length + 1)
+            }
+        }
+    }
+    const token = getCookieValue('token')
+    const profileNavbar = document.querySelector(
+        '#profileNavbar'
+    ) as HTMLAnchorElement
+    const loginNavbar = document.querySelector(
+        '#loginNavbar'
+    ) as HTMLAnchorElement
+    if (token) {
+        profileNavbar.style.display = 'block'
+        loginNavbar.style.display = 'none'
+    } else {
+        profileNavbar.style.display = 'none'
+        loginNavbar.style.display = 'block'
+    }
+    const home = document.querySelector('#homeButton') as HTMLAnchorElement
+    home.addEventListener('click', () => {
+        if (location.pathname == '/') {
+            overlay.style.display = 'none'
+            document.body.style.overflow = 'auto'
+            location.href = '/'
+        } else {
+            console.log('home clicked')
+        }
+    })
+    const projects = document.querySelector(
+        '#projectsButton'
+    ) as HTMLAnchorElement
+    projects.addEventListener('click', () => {
+        if (location.pathname == '/') {
+            overlay.style.display = 'none'
+            document.body.style.overflow = 'auto'
+            location.href = '/#projects'
+        } else {
+            console.log('projects clicked')
+        }
+    })
+    const about = document.querySelector('#aboutButton') as HTMLAnchorElement
+    about.addEventListener('click', () => {
+        if (location.pathname == '/') {
+            overlay.style.display = 'none'
+            document.body.style.overflow = 'auto'
+            location.href = '/#about'
+        } else {
+            console.log('about clicked')
+        }
+    })
+    const contact = document.querySelector(
+        '#contactButton'
+    ) as HTMLAnchorElement
+    contact.addEventListener('click', () => {
+        if (location.pathname == '/') {
+            overlay.style.display = 'none'
+            document.body.style.overflow = 'auto'
+            location.href = '/#contact'
+        } else {
+            console.log('contact clicked')
+        }
+    })
+
+    const menuMovile = document.querySelector('#menuMovile') as HTMLElement
+    const overlay = document.querySelector('#overlay') as HTMLElement
+    menuMovile.addEventListener('click', () => {
+        const clientY = window.pageYOffset
+        overlay.style.top = `${clientY}px`
+        overlay.style.display = 'block'
+        document.body.style.overflow = 'hidden'
+        const closeMenu = document.querySelector('#closeMenu') as HTMLElement
+        closeMenu.addEventListener('click', () => {
+            overlay.style.display = 'none'
+            document.body.style.overflow = 'auto'
+        })
+    })
+</script>
 
 <script>
     const $account = document.querySelector('#account')
@@ -119,7 +271,7 @@ const { home, projects, about, contact, display } = Astro.props
                     if (image === null || image === undefined || image === '') {
                         $account.innerHTML = `<img src="profileWhitepng.png" alt="Profile Photo" class="w-9 h-9 rounded-[50%] user-select-none" />`
                     } else {
-                        $account.innerHTML = `<img src="${image}" alt="Profile Photo" class="w-9 h-9 rounded-[50%] user-select-none" />`
+                        $account.innerHTML = `<img src="${image}" alt="Profile Photo" class="w-9 h-9 rounded-[50%] user-select-none border-solid border-black border-2" />`
                     }
                 })
         } else {
