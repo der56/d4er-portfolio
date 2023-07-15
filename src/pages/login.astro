@@ -52,14 +52,14 @@ import Layout from '../layouts/Layout.astro'
             </div>
             <a
                 href='/singup'
-                class='relative translate-y-[-50%] inline-block hover:underline singup max-[721px]:ml-[7rem] max-[475px]:ml-[5rem]'
+                class='relative translate-y-[-50%] inline-block hover:underline singup'
                 title='singup'
             >
                 o crear cuenta
             </a>
             <button
                 type='submit'
-                class='float-right relative translate-y-[-50%] hover:underline next max-[721px]:mr-[7rem] max-[475px]:mr-[5rem]'
+                class='float-right relative translate-y-[-50%] hover:underline next'
                 >siguiente</button
             >
         </form>
@@ -77,7 +77,23 @@ import Layout from '../layouts/Layout.astro'
                 margin-right: 5rem;
                 top: 40%;
             }
-            @media screen and (max-width: 352px) {
+            @media screen and (max-width: 475px) {
+                .singup {
+                    margin-left: 5rem !important;
+                }
+                .next {
+                    margin-right: 5rem !important;
+                }
+            }
+            @media screen and (max-width: 721px) {
+                .singup {
+                    margin-left: 7rem !important;
+                }
+                .next {
+                    margin-right: 7rem !important;
+                }
+            }
+            @media screen and (max-width: 421px) {
                 .next {
                     margin-right: 3rem !important;
                 }
