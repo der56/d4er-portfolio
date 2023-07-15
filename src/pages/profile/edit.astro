@@ -20,13 +20,22 @@ import Layout from '../../layouts/Layout.astro'
                 box-shadow: none;
             }
         }
+        @media screen and (max-width: 400px) {
+            .responsiveHeight {
+                width: 100%;
+                height: 100vh;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
     </style>
     <div
         class='h-screen bg-gradient-to-br from-[#181b20] to-[#312e33] relative overflow-y-auto overflow-x-hidden'
     >
         <section class='card'>
             <div
-                class='relative left-[50%] translate-x-[-50%] top-[50vh] translate-y-[-50%] max-[400px]:w-full max-[400px]:border-none max-[400px]:shadow-none max-[400px]:h-100% responsiveHeight'
+                class='relative left-[50%] translate-x-[-50%] top-[50vh] translate-y-[-50%] responsiveHeight'
             >
                 <div
                     class='opacity-100 hover:cursor-pointer w-[100px] h-[100px] rounded-[50%] relative left-[50%] translate-x-[-50%] top-[10vh] translate-y-[-50%] hover:bg-[#222022] hover:opacity-80'
