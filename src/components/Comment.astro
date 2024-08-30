@@ -11,7 +11,7 @@
 <script>
   const $photo = document.querySelector('#photo')
 
-  fetch('https://api-portfolio-d4er.vercel.app/api/comments/', {
+  fetch('https://api-portfolio-d4er.onrender.com/api/comments/', {
     method: 'GET',
     mode: 'no-cors',
   })
@@ -41,7 +41,7 @@
         }
         const token = getCookieValue('token')
         if (token) {
-          fetch('https://api-portfolio-d4er.vercel.app/api/profile', {
+          fetch('https://api-portfolio-d4er.onrender.com/api/profile', {
             method: 'GET',
             mode: 'no-cors',
             headers: {
@@ -90,7 +90,7 @@
                 $photo.innerHTML = allElements
                 function likeComment(commentId: string | null) {
                   const token = getCookieValue('token')
-                  const likeUrl = `https://api-portfolio-d4er.vercel.app/api/comments/${commentId}/like`
+                  const likeUrl = `https://api-portfolio-d4er.onrender.com/api/comments/${commentId}/like`
                   fetch(likeUrl, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -118,7 +118,7 @@
                 }
                 function unlikeComment(commentId: string | null) {
                   const token = getCookieValue('token')
-                  const likeUrl = `https://api-portfolio-d4er.vercel.app/api/comments/${commentId}/unlike`
+                  const likeUrl = `https://api-portfolio-d4er.onrender.com/api/comments/${commentId}/unlike`
                   fetch(likeUrl, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -164,7 +164,7 @@
               }
             })
         } else {
-          fetch('https://api-portfolio-d4er.vercel.app/api/comments', {
+          fetch('https://api-portfolio-d4er.onrender.com/api/comments', {
             method: 'GET',
             mode: 'no-cors',
           })

@@ -80,7 +80,7 @@ import Layout from '../layouts/Layout.astro'
         }
         const token = getCookieValue('token')
 
-        fetch('https://api-portfolio-d4er.vercel.app/api/profile', {
+        fetch('https://api-portfolio-d4er.onrender.com/api/profile', {
             method: 'GET',
             mode: 'no-cors',
             headers: {
@@ -106,7 +106,7 @@ import Layout from '../layouts/Layout.astro'
                 } else {
                     for (let i = 0; i < data.liked_comments.length; i++) {
                         fetch(
-                            `https://api-portfolio-d4er.vercel.app/api/getComment/${data.liked_comments[i]}`
+                            `https://api-portfolio-d4er.onrender.com/api/getComment/${data.liked_comments[i]}`
                         )
                             .then((response) => response.json())
                             .then((data) => {
@@ -125,7 +125,7 @@ import Layout from '../layouts/Layout.astro'
             '#logout'
         ) as HTMLButtonElement
         logoutButton.addEventListener('click', () => {
-            fetch('https://api-portfolio-d4er.vercel.app/api/logout', {
+            fetch('https://api-portfolio-d4er.onrender.com/api/logout', {
                 method: 'POST',
                 mode: 'no-cors',
                 credentials: 'include',
