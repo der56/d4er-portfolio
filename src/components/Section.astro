@@ -1,5 +1,4 @@
 ---
-import Card from './Card.astro'
 const { title, description } = Astro.props
 ---
 
@@ -10,28 +9,29 @@ const { title, description } = Astro.props
     <section class='relative'>
         <header class='relative'>
             <h1
-                class='text-white pt-40 text-[55px] font-medium pl-20 z-4 max-[836px]:text-[30px] max-[836px]:pl-1 max-[597px]:text-center max-[597px]:pl-0 max-[597px]:left-[50%] max-[597px]:relative max-[597px]:translate-x-[-50%] max-[394px]:max-w-[300px]'
+                class='text-white pt-40 text-[55px] font-medium z-4 text-center justify-center'
             >
                 {title}
             </h1>
             <p
-                class='text-white text-[30px] pl-20 w-[800px] mt-9 z-4 max-[836px]:text-[20px] max-[836px]:pl-1 max-[773px]:max-w-[600px] max-[773px]:break-words max-[597px]:max-w-[400px] max-[597px]:text-center max-[597px]:pl-0 max-[597px]:left-[50%] max-[597px]:relative max-[597px]:translate-x-[-50%] max-[394px]:max-w-[290px]'
+                class='text-white text-[30px] mt-9 z-4 flex text-center justify-center max-[571px]:text-[26px] max-[471px]:text-[15px]'
             >
                 {description}
             </p>
+            <div class="w-[100%] flex mt-36 justify-center gap-24 max-[812px]:mt-32 max-[645px]:mt-16 max-[415px]:gap-3">
             <a href='#contact'>
                 <button
-                    class='border-white border-[3px] border-solid rounded-[4px] ml-[5rem] mt-32 pl-10 pr-10 pt-2 pb-2 hover:bg-white hover:text-black max-[836px]:ml-0 max-[597px]:left-[20%] max-[597px]:relative max-[597px]:translate-x-[-50%] max-[454px]:block max-[454px]:left-[50%]'
+                    class='border-white border-[3px] border-solid rounded-[4px] pl-10 pr-10 pt-2 pb-2 hover:bg-white hover:text-black max-[415px]:pl-6 max-[415px]:pr-6 max-[326px]:pl-4 max-[326px]:pr-4'
                     >Contact me</button
                 ></a
             >
             <a href='#projects'>
                 <button
-                    class='border-white border-[3px] border-solid rounded-[4px] pl-10 pr-10 m-12 pt-2 pb-2 hover:bg-white hover:text-black transition-all duration-300 max-[836px]:ml-6 max-[597px]:left-[25%] max-[597px]:relative max-[597px]:translate-x-[-50%] max-[454px]:block max-[454px]:left-[50%] max-[454px]:ml-0'
+                    class='border-white border-[3px] border-solid rounded-[4px] pl-10 pr-10 pt-2 pb-2 hover:bg-white hover:text-black transition-all duration-300 max-[415px]:pl-6 max-[415px]:pr-6 max-[326px]:pl-4 max-[326px]:pr-4'
                     >Proyects</button
                 ></a
             >
-            <Card color='#9f2a9f' />
+        </div>
         </header>
     </section>
 </div>
