@@ -36,7 +36,7 @@ import Comment from './Comment.astro'
             }
             console.log(addComment.value)
             const token = getCookieValue('token')
-            await fetch('https://d4erapi56.onrender.com/api/comments', {
+            await fetch('https://api-portfolio-d4er.vercel.app/api/comments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ import Comment from './Comment.astro'
 
         const token = getCookieValue('token')
         if (existeCookie('token')) {
-            fetch('https://d4erapi56.onrender.com/api/profile', {
+            fetch('https://api-portfolio-d4er.vercel.app/api/profile', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

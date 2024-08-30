@@ -198,7 +198,7 @@ import Layout from '../../layouts/Layout.astro'
                 const confirmNewPassword = document.querySelector(
                     '#confirmNewPassword'
                 ) as HTMLInputElement
-                fetch('https://d4erapi56.onrender.com/api/uploadPassword', {
+                fetch('https://api-portfolio-d4er.vercel.app/api/uploadPassword', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -252,7 +252,7 @@ import Layout from '../../layouts/Layout.astro'
                     '¿Estas seguro de cambiar tu nombre?'
                 )
                 if (accept) {
-                    fetch('https://d4erapi56.onrender.com/api/uploadUsername', {
+                    fetch('https://api-portfolio-d4er.vercel.app/api/uploadUsername', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -306,7 +306,7 @@ import Layout from '../../layouts/Layout.astro'
 
                     reader.onload = (e) => {
                         const base64Image = e.target.result
-                        fetch('https://d4erapi56.onrender.com/api/upload', {
+                        fetch('https://api-portfolio-d4er.vercel.app/api/upload', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -336,7 +336,7 @@ import Layout from '../../layouts/Layout.astro'
             input.click()
         })
 
-        fetch(`https://d4erapi56.onrender.com/api/profile`, {
+        fetch(`https://api-portfolio-d4er.vercel.app/api/profile`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
