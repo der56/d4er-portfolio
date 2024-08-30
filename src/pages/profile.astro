@@ -82,6 +82,7 @@ import Layout from '../layouts/Layout.astro'
 
         fetch('https://api-portfolio-d4er.vercel.app/api/profile', {
             method: 'GET',
+            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
                 Authorization: `Bearer ${token}`,
@@ -126,6 +127,7 @@ import Layout from '../layouts/Layout.astro'
         logoutButton.addEventListener('click', () => {
             fetch('https://api-portfolio-d4er.vercel.app/api/logout', {
                 method: 'POST',
+                mode: 'no-cors',
                 credentials: 'include',
             }).then((response) => {
                 if (response.ok) {

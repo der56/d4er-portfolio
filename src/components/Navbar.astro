@@ -259,6 +259,7 @@ const { home, projects, about, contact, display } = Astro.props
             const token = getCookieValue('token')
             fetch('hhttps://api-portfolio-d4er.vercel.app/api/profile', {
                 method: 'GET',
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,

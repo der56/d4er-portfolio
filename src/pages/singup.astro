@@ -162,6 +162,7 @@ import Layout from '../layouts/Layout.astro'
         const username = user.value
         await fetch('https://api-portfolio-d4er.vercel.app/api/register', {
             method: 'POST',
+            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },

@@ -13,6 +13,7 @@
 
   fetch('https://api-portfolio-d4er.vercel.app/api/comments/', {
     method: 'GET',
+    mode: 'no-cors',
   })
     .then((response) => response.json())
     .then((data) => {
@@ -42,6 +43,7 @@
         if (token) {
           fetch('https://api-portfolio-d4er.vercel.app/api/profile', {
             method: 'GET',
+            mode: 'no-cors',
             headers: {
               'Content-Type': 'application/json; charset=utf-8',
               Authorization: `Bearer ${token}`,
@@ -91,6 +93,7 @@
                   const likeUrl = `https://api-portfolio-d4er.vercel.app/api/comments/${commentId}/like`
                   fetch(likeUrl, {
                     method: 'POST',
+                    mode: 'no-cors',
                     headers: {
                       Authorization: `Bearer ${token}`,
                     },
@@ -118,6 +121,7 @@
                   const likeUrl = `https://api-portfolio-d4er.vercel.app/api/comments/${commentId}/unlike`
                   fetch(likeUrl, {
                     method: 'POST',
+                    mode: 'no-cors',
                     headers: {
                       Authorization: `Bearer ${token}`,
                     },
@@ -162,6 +166,7 @@
         } else {
           fetch('https://api-portfolio-d4er.vercel.app/api/comments', {
             method: 'GET',
+            mode: 'no-cors',
           })
             .then((response) => response.json())
             .then((data) => {

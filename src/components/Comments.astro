@@ -38,6 +38,7 @@ import Comment from './Comment.astro'
             const token = getCookieValue('token')
             await fetch('https://api-portfolio-d4er.vercel.app/api/comments', {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
@@ -87,6 +88,7 @@ import Comment from './Comment.astro'
         if (existeCookie('token')) {
             fetch('https://api-portfolio-d4er.vercel.app/api/profile', {
                 method: 'GET',
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
