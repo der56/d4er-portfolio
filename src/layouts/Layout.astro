@@ -1,50 +1,67 @@
 ---
-interface Props {
-	title: string;
-}
-
-const { title } = Astro.props;
+import '@fontsource-variable/montserrat'
+import Header from '../components/Header.astro'
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>D4er - Portafolio</title>
+  </head>
+  <body>
+    <div
+      class="absolute top-0 z-[-2] w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"
+      id="bgmain"
+    >
+    </div>
+    <Header />
+    <slot />
+  </body>
 </html>
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-	}
-	code {
-		font-family:
-			Menlo,
-			Monaco,
-			Lucida Console,
-			Liberation Mono,
-			DejaVu Sans Mono,
-			Bitstream Vera Sans Mono,
-			Courier New,
-			monospace;
-	}
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+
+  @layer utilities {
+    .card:nth-child(n + 2) {
+      @apply mt-10;
+    }
+  }
+
+  :root {
+    color-scheme: light dark;
+  }
+  html {
+    font-family: 'Montserrat Variable', sans-serif;
+    scroll-behavior: smooth;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    background: #13151a;
+    height: 100vh;
+    overflow-x: hidden;
+  }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const bgmain = document.getElementById('bgmain')
+    if (bgmain) {
+      const height = Math.max(
+        document.body.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight
+      )
+      bgmain.style.height = `${height}px`
+    }
+  })
+</script>
