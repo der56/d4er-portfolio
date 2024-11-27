@@ -48,9 +48,17 @@ import Header from '../components/Header.astro'
     height: 100vh;
     overflow-x: hidden;
   }
+  #bgmain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+  }
 </style>
 
-<script>
+<!--<script>
   const updateBackgroundHeight = () => {
     const bgmain = document.getElementById('bgmain')
     if (bgmain) {
@@ -67,4 +75,4 @@ import Header from '../components/Header.astro'
 
   document.addEventListener('DOMContentLoaded', updateBackgroundHeight)
   window.addEventListener('resize', updateBackgroundHeight)
-</script>
+</script>-->
