@@ -8,7 +8,9 @@ import projects from '../data/projects.json'
   id="proyectos"
 >
   <h3 class="italic text-gray-400">Descubre mis trabajos</h3>
-  <h1 class="text-xl sm:text-2xl font-bold mb-8 whitespace-nowrap">
+  <h1
+    class="text-xl sm:text-2xl font-bold mb-8 whitespace-nowrap text-white !important"
+  >
     Algunos de mis proyectos
   </h1>
   {
@@ -17,7 +19,9 @@ import projects from '../data/projects.json'
         <h3 class="text-lg lg:text-xl font-semibold text-yellow-100 mb-2">
           {title}
         </h3>
-        <p class="text-sm lg:text-base mb-4 text-pretty">{description}</p>
+        <p class="text-sm lg:text-base mb-4 text-pretty text-white !important">
+          {description}
+        </p>
         <a
           href={link}
           target="_blank"
