@@ -51,7 +51,7 @@ import Header from '../components/Header.astro'
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  const updateBackgroundHeight = () => {
     const bgmain = document.getElementById('bgmain')
     if (bgmain) {
       const height = Math.max(
@@ -63,5 +63,8 @@ import Header from '../components/Header.astro'
       )
       bgmain.style.height = `${height}px`
     }
-  })
+  }
+
+  document.addEventListener('DOMContentLoaded', updateBackgroundHeight)
+  window.addEventListener('resize', updateBackgroundHeight)
 </script>
