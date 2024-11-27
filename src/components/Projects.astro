@@ -8,34 +8,30 @@ import projects from '../data/projects.json'
   id="proyectos"
 >
   <h3 class="italic text-gray-400">Descubre mis trabajos</h3>
-  <h1
-    class="text-xl sm:text-2xl font-bold mb-8 whitespace-nowrap text-white !important"
-  >
+  <h1 class="text-xl sm:text-2xl font-bold mb-8 whitespace-nowrap text-white">
     Algunos de mis proyectos
   </h1>
   {
     projects.map(({ title, description, image, link }) => (
-      <article>
+      <article class="mb-8">
         <h3 class="text-lg lg:text-xl font-semibold text-yellow-100 mb-2">
           {title}
         </h3>
-        <p class="text-sm lg:text-base mb-4 text-pretty text-white !important">
-          {description}
-        </p>
+        <p class="text-sm lg:text-base mb-4 text-white">{description}</p>
         <a
           href={link}
           target="_blank"
           rel="noopener noreferrer"
-          class="relative group"
+          class="relative group block"
         >
-          <div class="relative">
+          <div class="relative rounded-2xl overflow-hidden transition-transform duration-300 group-hover:scale-105">
             <img
-              class="rounded-2xl shadow-2xl shadow-white/20 mb-6 transition-opacity duration-300 group-hover:opacity-50"
+              class="rounded-2xl shadow-lg shadow-white/20 mb-6"
               src={image}
               alt={image}
             />
-            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <CodeIcon class="w-16 h-16" />
+            <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <CodeIcon class="w-16 h-16 text-yellow-100" />
             </div>
           </div>
         </a>
@@ -45,16 +41,11 @@ import projects from '../data/projects.json'
 </section>
 
 <style>
-  .group {
-    position: relative;
-    display: inline-block;
+  .group:hover .group-hover\:scale-105 {
+    transform: scale(1.05);
   }
 
-  .group-hover .group-hover\:opacity-50:hover {
-    opacity: 0.5;
-  }
-
-  .group-hover .group-hover\:opacity-100:hover {
+  .group:hover .group-hover\:opacity-100 {
     opacity: 1;
   }
 </style>
