@@ -7,15 +7,20 @@ import Header from '../components/Header.astro'
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
+    <meta name="description" content="My personal portfolio!" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>D4er - Portafolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{Astro.props.title}</title>
   </head>
   <body>
-    <Header />
-    <slot />
+    <main class="max-w-[800px] mx-auto min-h-screen pt-16 overflow-y-auto">
+      <Header />
+      <slot />
+    </main>
   </body>
 </html>
 <style is:global>
@@ -35,37 +40,45 @@ import Header from '../components/Header.astro'
   html {
     font-family: 'Montserrat Variable', sans-serif;
     scroll-behavior: smooth;
+    border-sizing: border-box;
   }
-  body {
-    display: flex;
-    flex-direction: column;
-    background-color: #000000;
-    background-image: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.2) 1px,
-      #00091d 1px
-    );
-    background-size: 20px 20px;
-    height: 100vh;
-    overflow-x: hidden;
-  }
-</style>
 
-<!--<script>
-  const updateBackgroundHeight = () => {
-    const bgmain = document.getElementById('bgmain')
-    if (bgmain) {
-      const height = Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight
-      )
-      bgmain.style.height = `${height}px`
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background: #32324a;
+    background: radial-gradient(at right center, #32324a, #1c211c);
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+  }
+
+  @media screen and (max-width: 800px) {
+    body {
+      width: 100%;
     }
   }
 
-  document.addEventListener('DOMContentLoaded', updateBackgroundHeight)
-  window.addEventListener('resize', updateBackgroundHeight)
-</script>-->
+  main {
+    display: flex; /* Si necesitas que el contenido esté centrado */
+    flex-direction: column; /* Dirección vertical */
+    max-width: 800px;
+    margin: auto; /* Centra el contenido */
+    min-height: calc(
+      100vh - 64px
+    ); /* Ajusta la altura para evitar el solapamiento */
+    padding-top: 64px; /* Espacio para el header fijo */
+    overflow-y: auto; /* Permite el desplazamiento vertical */
+  }
+
+  header,
+  slot {
+    margin: 0;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+</style>

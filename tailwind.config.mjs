@@ -7,6 +7,9 @@ export default {
       backgroundImage: {
         'grid-pattern': 'radial-gradient(#ffffff33_1px, #00091d_1px)',
       },
+      screens: {
+        pagew: { max: '800px' },
+      },
     },
   },
   plugins: [],

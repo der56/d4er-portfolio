@@ -1,4 +1,6 @@
 ---
+import MenuIcon from '../icons/MenuIcon.astro'
+
 const navItems = [
   {
     title: 'Proyectos',
@@ -25,23 +27,31 @@ const navItems = [
 ---
 
 <header
-  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
+  class="fixed top-0 z-10 flex justify-center w-full h-20 max-w-[800px] mt-2 pagew:mt-0"
 >
   <nav
-    class="flex px-3 text-sm font-medium rounded-full text-white dark:text-gray-200 justify-center items-center"
+    class="flex text-sm font-medium text-white dark:text-gray-200 h-20 justify-between items-center w-full px-8 rounded-2xl pagew:rounded-none"
   >
-    {
-      navItems.map((link) => (
-        <a
-          class="relative block px-2 py-2 transition hover:text-yellow-500"
-          aria-label={link.label}
-          href={link.url}
-          download={link.download ? '' : undefined}
-        >
-          {link.title}
-        </a>
-      ))
-    }
+    <a href="/">
+      <h1 class="text-white text-3xl">d4er</h1>
+    </a>
+    <div class="gap-x-10 sm:flex hidden">
+      {
+        navItems.map((link) => (
+          <a
+            class="py-2 transition hover:text-yellow-500 text-[1.15rem] "
+            aria-label={link.label}
+            href={link.url}
+            download={link.download ? '' : undefined}
+          >
+            {link.title}
+          </a>
+        ))
+      }
+    </div>
+    <div class="sm:hidden flex self-center">
+      <MenuIcon class="size-10" />
+    </div>
   </nav>
 </header>
 
