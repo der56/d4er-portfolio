@@ -1,0 +1,85 @@
+---
+import MenuIcon from '@icons/MenuIcon.astro'
+import CrossIcon from '@icons/CrossIcon.astro'
+---
+
+<div class="sm:hidden">
+  <MenuIcon
+    class="sm:hidden flex self-center size-9 cursor-pointer"
+    id="menu"
+  />
+
+  <CrossIcon class="hidden self-center size-9 cursor-pointer" id="cross" />
+
+  <div
+    class="h-[calc(100vh-5rem)] bg-[#24272B]/80 transition-transform w-full hidden absolute left-0 top-[5rem] shadow-lg"
+    id="ctnmenu"
+  >
+    <ul
+      class="list-none h-[calc(100vh-5rem)] w-full text-white flex justify-center flex-col gap-y-8 text-xl font-medium transition [&>li]:mx-auto hover:[&>li]:text-yellow-500"
+    >
+      <li id="li-menu">
+        <a href="/#proyectos">Proyectos</a>
+      </li>
+      <li id="li-menu">
+        <a href="/#sobre-mi">Sobre mí</a>
+      </li>
+      <li id="li-menu">
+        <a href="mailto:gabi.qs.mail@gmail.com">Contacto</a>
+      </li>
+      <li id="li-menu">
+        <a href="/gqs_cv.pdf">CV</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  // bg-[#24272B]
+  const menu = document.getElementById('menu')
+  const cross = document.getElementById('cross')
+  const ctnmenu = document.getElementById('ctnmenu')
+
+  const liMenu = document.querySelectorAll('#li-menu')
+  const valdiateElements = menu && cross && ctnmenu && liMenu.length > 0
+
+  if (valdiateElements) {
+    function closeMenu() {
+      if (valdiateElements) {
+        cross.classList.add('hidden')
+        menu.classList.remove('hidden')
+        ctnmenu.classList.add('hidden')
+        ctnmenu.classList.remove('backdrop-blur')
+        document.body.classList.remove('overflow-hidden')
+      }
+    }
+
+    function openMenu() {
+      if (valdiateElements) {
+        menu.classList.add('hidden')
+        cross.classList.remove('hidden')
+        ctnmenu.classList.remove('hidden')
+        ctnmenu.classList.add('backdrop-blur')
+        document.body.classList.add('overflow-hidden')
+      }
+    }
+
+    liMenu.forEach((item) => {
+      item.addEventListener('click', () => {
+        closeMenu()
+      })
+    })
+
+    menu.addEventListener('click', () => {
+      openMenu()
+    })
+
+    cross.addEventListener('click', () => {
+      closeMenu()
+    })
+  } else {
+    console.error(
+      'Error: No se encontraron algunos elementos necesarios en el DOM.'
+    )
+  }
+</script>

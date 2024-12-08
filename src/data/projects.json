@@ -3,14 +3,14 @@
     "id": 1,
     "title": "Notes app",
     "description": "Aplicación sencilla para tomar notas creada con React y TypeScript que permite a los usuarios crear, editar y eliminar notas.",
-    "image": "/notes-app.png",
+    "image": "/notes-app.webp",
     "link": "https://github.com/der56/NotesApp"
   },
   {
     "id": 2,
     "title": "REST API",
     "description": "API RESTful en Go que permite registrar usuarios, gestionar perfiles (ver, actualizar, consultar de otros usuarios) y administrar relaciones como seguir o dejar de seguir a otros usuarios.",
-    "image": "/rest-api.png",
+    "image": "/rest-api.webp",
     "link": "https://github.com/der56/rest-social-api"
   }
 ]

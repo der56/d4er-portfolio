@@ -1,5 +1,5 @@
 ---
-import MenuIcon from '../icons/MenuIcon.astro'
+import Menu from './Menu.astro'
 
 const navItems = [
   {
@@ -30,7 +30,7 @@ const navItems = [
   class="fixed top-0 z-10 flex justify-center w-full h-20 max-w-[800px] mt-2 pagew:mt-0"
 >
   <nav
-    class="flex text-sm font-medium text-white dark:text-gray-200 h-20 justify-between items-center w-full px-8 rounded-2xl pagew:rounded-none"
+    class="flex text-sm font-medium text-white h-20 justify-between items-center w-full px-8 rounded-2xl pagew:rounded-none"
   >
     <a href="/">
       <h1 class="text-white text-3xl">d4er</h1>
@@ -49,9 +49,7 @@ const navItems = [
         ))
       }
     </div>
-    <div class="sm:hidden flex self-center">
-      <MenuIcon class="size-10" />
-    </div>
+    <Menu />
   </nav>
 </header>
 
