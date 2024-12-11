@@ -1,0 +1,3 @@
+[resolve]
+"@" = "./src"
+"@motionone/animation" = "./node_modules/@motionone/animation"
