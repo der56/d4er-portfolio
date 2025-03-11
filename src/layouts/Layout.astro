@@ -17,8 +17,8 @@ import Header from '../components/Header.astro'
     <title>{Astro.props.title}</title>
   </head>
   <body>
+    <Header />
     <main class="max-w-[800px] mx-auto min-h-screen pt-16 overflow-y-auto">
-      <Header />
       <slot />
     </main>
   </body>
@@ -63,7 +63,6 @@ import Header from '../components/Header.astro'
   main {
     display: flex;
     flex-direction: column; 
-    max-width: 800px;
     margin: auto; 
     min-height: calc(
       100vh - 64px
@@ -72,7 +71,9 @@ import Header from '../components/Header.astro'
     overflow-y: auto;
   }
 
-  header,
+  header {
+    margin: 0
+  }
   slot {
     margin: 0;
   }
